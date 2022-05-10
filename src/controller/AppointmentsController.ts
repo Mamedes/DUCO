@@ -4,8 +4,6 @@ import Main from "../core/usecase/main";
 
 export default class AppointmentsController {
   static async getAppointments() {
-    const TOTAL_EXHIBITOR = 116;
-    const TOTAL_BUYERS = 116;
     const listOfEventData: Array<EventData> = [
       {
         id: 1,
@@ -32,7 +30,6 @@ export default class AppointmentsController {
         event_day: 17,
       },
     ];
-
     const hotels: Array<Hotel> = [
       {
         id: 1,
@@ -53,6 +50,8 @@ export default class AppointmentsController {
         table: 23,
       },
     ];
+    const TOTAL_EXHIBITOR = hotels.reduce((acc, hotel) => acc + hotel.table, 0);
+    const TOTAL_BUYERS = hotels.reduce((acc, hotel) => acc + hotel.table, 0);
 
     const appointment = new Main(
       TOTAL_BUYERS,

@@ -6,6 +6,7 @@ import Hotel from "../entity/Hotel";
 import AppointmentExist from "./AppointmentExist";
 import GetTotalDay from "./GetTotalDay";
 import LifoBuyer from "./LifoBuyer";
+import LifoBuyerByDay from "./LifoBuyerByDay";
 import ListOfEventDataOfDay from "./ListOfEventDataOfDay";
 
 export default class GenerateAppointment {
@@ -33,11 +34,8 @@ export default class GenerateAppointment {
     const event_day = new ListOfEventDataOfDay(this.listOfEventData).execute();
 
     let listOfBuyers = this.listOfBuyers;
-
     let numberOfAppointments = 0;
-
     let idAppointment = 0;
-    let idBuyer = 0;
     let appointment: Appointment;
     let positionModifier = 1;
     let dayModifier = 0;
@@ -53,11 +51,13 @@ export default class GenerateAppointment {
           idAppointment = idAppointment + 1;
 
           if (dayModifier !== day) {
-            listOfBuyers = this.changeListOfBuyersDay(listOfBuyers);
+            listOfBuyers = new LifoBuyerByDay(
+              listOfBuyers,
+              this.listOfHotels
+            ).execute();
             dayModifier = day;
           }
 
-          //PRECISO VERIFICAR QUANDO GERO OUTRO  time DE EVENTO PARA ANDAR O ID DO BUYER
           if (positionModifier !== i) {
             listOfBuyers = new LifoBuyer(
               listOfBuyers,
@@ -83,13 +83,12 @@ export default class GenerateAppointment {
           ).execute();
 
           if (appointmentExist) {
-            // return { message: "Not possible generate list appointment" };
             console.log(
               appointment.id,
               appointment.idExhibitor,
               appointment.idBuyer
             );
-            // return this.listOfAppointments;
+            return this.listOfAppointments;
           }
 
           this.listOfAppointments.push(appointment);
@@ -97,18 +96,5 @@ export default class GenerateAppointment {
       }
     }
     return this.listOfAppointments;
-  }
-
-  changeListOfBuyersDay(listOfBuyers): Array<Buyer> {
-    let listOfBuyersModify = listOfBuyers;
-    let buyerHotelA = listOfBuyers.slice(18, 41);
-    let buyerHotelB = listOfBuyers.slice(70, 93);
-    let buyerHotelC = listOfBuyers.slice(93, 116);
-
-    listOfBuyersModify.splice(18, 23, ...buyerHotelC);
-    listOfBuyersModify.splice(70, 23, ...buyerHotelA);
-    listOfBuyersModify.splice(93, 23, ...buyerHotelB);
-
-    return listOfBuyersModify;
   }
 }

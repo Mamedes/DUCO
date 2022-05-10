@@ -1,11 +1,12 @@
+import EventData from "../core/entity/EventData";
+import Hotel from "../core/entity/Hotel";
 import Main from "../core/usecase/main";
 
 export default class AppointmentsController {
   static async getAppointments() {
     const TOTAL_EXHIBITOR = 116;
-    const TOTAL_BUYERS = 50;
-    const TOTAL_DAYS = 3;
-    const CONFIG_EVENT = [
+    const TOTAL_BUYERS = 116;
+    const listOfEventData: Array<EventData> = [
       {
         id: 1,
         name: "Day 1",
@@ -32,7 +33,7 @@ export default class AppointmentsController {
       },
     ];
 
-    const hotels = [
+    const hotels: Array<Hotel> = [
       {
         id: 1,
         name: "Hotel A",
@@ -53,14 +54,12 @@ export default class AppointmentsController {
       },
     ];
 
-    const eventList = new Main(
+    const appointment = new Main(
       TOTAL_BUYERS,
       TOTAL_EXHIBITOR,
       hotels,
-      hotels.length,
-      TOTAL_DAYS,
-      CONFIG_EVENT.length
+      listOfEventData
     );
-    return eventList.generateAppointments();
+    return appointment.generateAppointments();
   }
 }

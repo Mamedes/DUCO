@@ -1,48 +1,39 @@
 import Appointment from "../entity/Appointment";
 import Buyer from "../entity/Buyer";
+import EventData from "../entity/EventData";
 import Exhibitor from "../entity/Exhibitor";
+import Hotel from "../entity/Hotel";
+import GenerateAppointment from "./GenerateAppointment";
 import GenerateListBuyer from "./GenerateListBuyer";
-import GetAppointment from "./GetAppointment";
 import GenerateListExhibitor from "./GenerateListExhibitor";
 
-type Hotel = {
-  id: number;
-  name: string;
-  email: string;
-  table: number;
-};
 class Main {
   private TOTAL_BUYERS: number;
   private TOTAL_EXHIBITOR: number;
   private hotels: Array<Hotel> = [];
-  private TOTAL_HOTEL: number;
   private listOfExhibitors: Array<Exhibitor> = [];
   private listOfBuyers: Array<Buyer> = [];
-  private TOTAL_DAYS: number;
-  private listOfAppointments: Array<Appointment> = [];
-  private TOTAL_EVENT_DAY: number;
+  private listOfEventData: Array<EventData> = [];
 
   constructor(
     TOTAL_BUYERS: number,
     TOTAL_EXHIBITOR: number,
     hotels: Array<Hotel>,
-    TOTAL_HOTEL: number,
-    TOTAL_DAYS: number,
-    TOTAL_EVENT_DAY: number
+    listOfEventData: Array<EventData>
   ) {
     this.TOTAL_BUYERS = TOTAL_BUYERS;
     this.TOTAL_EXHIBITOR = TOTAL_EXHIBITOR;
     this.hotels = hotels;
-    this.TOTAL_HOTEL = TOTAL_HOTEL;
-    this.TOTAL_DAYS = TOTAL_DAYS;
-    this.TOTAL_EVENT_DAY = TOTAL_EVENT_DAY;
+    this.listOfEventData = listOfEventData;
 
-    //this.log(this.listOfExhibitors, this.listOfBuyers);
     this.generateExhibitors();
     this.generateBuyers();
   }
   generateExhibitors() {
-    const exhibitors = new GenerateListExhibitor(this.TOTAL_EXHIBITOR);
+    const exhibitors = new GenerateListExhibitor(
+      this.hotels,
+      this.TOTAL_EXHIBITOR
+    );
     this.listOfExhibitors = exhibitors.exhibitorsGenerated;
   }
 
@@ -51,14 +42,12 @@ class Main {
     this.listOfBuyers = buyers.BuyersGenerated;
   }
 
-  async generateAppointments() {
-    const appointments = new GetAppointment(
-      this.hotels,
-      this.TOTAL_HOTEL,
+  async generateAppointments(): Promise<Array<Appointment>> {
+    const appointments = new GenerateAppointment(
       this.listOfBuyers,
       this.listOfExhibitors,
-      this.TOTAL_EVENT_DAY,
-      this.TOTAL_DAYS
+      this.listOfEventData,
+      this.hotels
     );
     return appointments.execute();
   }

@@ -4,21 +4,18 @@ export default class Appointment {
   public idExhibitor: number;
   public day: number;
   public appointmentNumber: number;
-  public idHotel: number;
 
   constructor(
     id: number,
     idBuyer: number,
     idExhibitor: number,
     day: number,
-    appointmentNumber: number,
-    idHotel: number
+    appointmentNumber: number
   ) {
     this.id = id;
     this.idBuyer = idBuyer;
     this.idExhibitor = idExhibitor;
     this.day = day;
     this.appointmentNumber = appointmentNumber;
-    this.idHotel = idHotel;
   }
 }

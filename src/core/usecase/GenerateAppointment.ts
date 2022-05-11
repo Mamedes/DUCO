@@ -83,18 +83,13 @@ export default class GenerateAppointment {
           ).execute();
 
           if (appointmentExist) {
-            console.log(
-              appointment.id,
-              appointment.idExhibitor,
-              appointment.idBuyer
-            );
-            return this.listOfAppointments;
+            return { Error: "Not possible Appointments generated" };
           }
 
           this.listOfAppointments.push(appointment);
         }
       }
     }
-    return this.listOfAppointments;
+    return { Success: "Appointments generated" };
   }
 }

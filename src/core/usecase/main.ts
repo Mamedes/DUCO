@@ -8,21 +8,12 @@ import GenerateListBuyer from "./GenerateListBuyer";
 import GenerateListExhibitor from "./GenerateListExhibitor";
 
 class Main {
-  private TOTAL_BUYERS: number;
-  private TOTAL_EXHIBITOR: number;
   private hotels: Array<Hotel> = [];
   private listOfExhibitors: Array<Exhibitor> = [];
   private listOfBuyers: Array<Buyer> = [];
   private listOfEventData: Array<EventData> = [];
 
-  constructor(
-    TOTAL_BUYERS: number,
-    TOTAL_EXHIBITOR: number,
-    hotels: Array<Hotel>,
-    listOfEventData: Array<EventData>
-  ) {
-    this.TOTAL_BUYERS = TOTAL_BUYERS;
-    this.TOTAL_EXHIBITOR = TOTAL_EXHIBITOR;
+  constructor(hotels: Array<Hotel>, listOfEventData: Array<EventData>) {
     this.hotels = hotels;
     this.listOfEventData = listOfEventData;
 
@@ -30,19 +21,16 @@ class Main {
     this.generateBuyers();
   }
   generateExhibitors() {
-    const exhibitors = new GenerateListExhibitor(
-      this.hotels,
-      this.TOTAL_EXHIBITOR
-    );
+    const exhibitors = new GenerateListExhibitor(this.hotels);
     this.listOfExhibitors = exhibitors.exhibitorsGenerated;
   }
 
   generateBuyers() {
-    const buyers = new GenerateListBuyer(this.TOTAL_BUYERS);
+    const buyers = new GenerateListBuyer(this.hotels);
     this.listOfBuyers = buyers.BuyersGenerated;
   }
 
-  async generateAppointments(): Promise<Array<Appointment>> {
+  async generateAppointments() {
     const appointments = new GenerateAppointment(
       this.listOfBuyers,
       this.listOfExhibitors,

@@ -3,35 +3,30 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const GenerateAppointment_1 = __importDefault(require("./GenerateAppointment"));
 const GenerateListBuyer_1 = __importDefault(require("./GenerateListBuyer"));
-const GetAppointment_1 = __importDefault(require("./GetAppointment"));
 const GenerateListExhibitor_1 = __importDefault(require("./GenerateListExhibitor"));
 class Main {
-    constructor(TOTAL_BUYERS, TOTAL_EXHIBITOR, hotels, TOTAL_HOTEL, TOTAL_DAYS, TOTAL_EVENT_DAY) {
+    constructor(hotels, listOfEventData) {
         this.hotels = [];
         this.listOfExhibitors = [];
         this.listOfBuyers = [];
-        this.listOfAppointments = [];
-        this.TOTAL_BUYERS = TOTAL_BUYERS;
-        this.TOTAL_EXHIBITOR = TOTAL_EXHIBITOR;
+        this.listOfEventData = [];
         this.hotels = hotels;
-        this.TOTAL_HOTEL = TOTAL_HOTEL;
-        this.TOTAL_DAYS = TOTAL_DAYS;
-        this.TOTAL_EVENT_DAY = TOTAL_EVENT_DAY;
-        //this.log(this.listOfExhibitors, this.listOfBuyers);
+        this.listOfEventData = listOfEventData;
         this.generateExhibitors();
         this.generateBuyers();
     }
     generateExhibitors() {
-        const exhibitors = new GenerateListExhibitor_1.default(this.TOTAL_EXHIBITOR);
+        const exhibitors = new GenerateListExhibitor_1.default(this.hotels);
         this.listOfExhibitors = exhibitors.exhibitorsGenerated;
     }
     generateBuyers() {
-        const buyers = new GenerateListBuyer_1.default(this.TOTAL_BUYERS);
+        const buyers = new GenerateListBuyer_1.default(this.hotels);
         this.listOfBuyers = buyers.BuyersGenerated;
     }
     async generateAppointments() {
-        const appointments = new GetAppointment_1.default(this.hotels, this.TOTAL_HOTEL, this.listOfBuyers, this.listOfExhibitors, this.TOTAL_EVENT_DAY, this.TOTAL_DAYS);
+        const appointments = new GenerateAppointment_1.default(this.listOfBuyers, this.listOfExhibitors, this.listOfEventData, this.hotels);
         return appointments.execute();
     }
     log(listOfExhibitors, listOfBuyers) {

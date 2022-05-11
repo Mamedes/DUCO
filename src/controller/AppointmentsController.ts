@@ -27,7 +27,7 @@ export default class AppointmentsController {
         date: "2020-01-03",
         time: "00:00:00",
         duration: "00:00:00",
-        event_day: 17,
+        event_day: 14,
       },
     ];
     const hotels: Array<Hotel> = [
@@ -50,15 +50,8 @@ export default class AppointmentsController {
         table: 23,
       },
     ];
-    const TOTAL_EXHIBITOR = hotels.reduce((acc, hotel) => acc + hotel.table, 0);
-    const TOTAL_BUYERS = hotels.reduce((acc, hotel) => acc + hotel.table, 0);
 
-    const appointment = new Main(
-      TOTAL_BUYERS,
-      TOTAL_EXHIBITOR,
-      hotels,
-      listOfEventData
-    );
+    const appointment = new Main(hotels, listOfEventData);
     return appointment.generateAppointments();
   }
 }

@@ -23,22 +23,27 @@ export default class LifoBuyerByDay {
     );
     const listOfBuyersByHotel = this.getListOfBuyersByHotel(decimalPlace);
 
-    for (let i = 0; i < listOfBuyersByHotel.length; i++) {
+    for (
+      let countBuyer = 0;
+      countBuyer < listOfBuyersByHotel.length;
+      countBuyer++
+    ) {
       START_TABLE += this.listOfHOtels[POSITION_INITIAL_CUTE].table;
-      if (i === 0) {
+      if (countBuyer === 0) {
         this.listOfBuyers.splice(
           START_TABLE - decimalPlace,
           decimalPlace,
           ...listOfBuyersByHotel[this.listOfHOtels.length - 1]
         );
-      } else {
+      }
+      if (countBuyer > 0) {
         this.listOfBuyers.splice(
           START_TABLE - decimalPlace,
           decimalPlace,
-          ...listOfBuyersByHotel[i - 1]
+          ...listOfBuyersByHotel[countBuyer - 1]
         );
       }
-      TOTAL_TABLE -= this.listOfHOtels[i].table;
+      TOTAL_TABLE -= this.listOfHOtels[countBuyer].table;
       POSITION_INITIAL_CUTE += 1;
     }
 
@@ -47,8 +52,12 @@ export default class LifoBuyerByDay {
   private getListOfBuyersByHotel(decimalPlace: number) {
     let listOfBuyersByHotel = [];
     let SUM_TABLE = 0;
-    for (let i = 0; i < this.listOfHOtels.length; i++) {
-      SUM_TABLE += this.listOfHOtels[i].table;
+    for (
+      let countHotel = 0;
+      countHotel < this.listOfHOtels.length;
+      countHotel++
+    ) {
+      SUM_TABLE += this.listOfHOtels[countHotel].table;
 
       listOfBuyersByHotel.push(
         this.listOfBuyers.slice(SUM_TABLE - decimalPlace, SUM_TABLE)

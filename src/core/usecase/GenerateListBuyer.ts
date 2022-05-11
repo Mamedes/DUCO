@@ -1,21 +1,25 @@
 import Buyer from "../entity/Buyer";
+import Hotel from "../entity/Hotel";
 
 export default class GenerateListBuyer {
-  totalBuyers: number;
   BuyersGenerated: Array<Buyer> = [];
-
-  constructor(totalBuyers: number) {
-    this.totalBuyers = totalBuyers;
-    this.generateBuyers(this.totalBuyers);
+  private listOfHotels: Array<Hotel>;
+  constructor(listOfHotels) {
+    this.listOfHotels = listOfHotels;
+    this.generateBuyers();
   }
 
-  generateBuyers(_totalBuyers: number) {
+  generateBuyers() {
+    const TOTAL_BUYERS = this.listOfHotels.reduce(
+      (acc, hotel) => acc + hotel.table,
+      0
+    );
     let buyersArray: Array<Buyer> = [];
-    for (let i = 1; i <= this.totalBuyers; i++) {
+    for (let countBuyer = 1; countBuyer <= TOTAL_BUYERS; countBuyer++) {
       buyersArray.push({
-        id: i,
-        name: `Buyer ${i}`,
-        email: `Email ${i}`,
+        id: countBuyer,
+        name: `Buyer ${countBuyer}`,
+        email: `Email ${countBuyer}`,
         appointments: [],
       });
     }

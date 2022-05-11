@@ -3,20 +3,23 @@ import Hotel from "../entity/Hotel";
 import GetIdHotel from "./GetIdHotel";
 
 export default class GenerateListExhibitor {
-  totalExhibitors: number;
   exhibitorsGenerated: Array<Exhibitor> = [];
   listOfHotels: Array<Hotel>;
-  constructor(listOfHotels, totalExhibitors: number) {
+  constructor(listOfHotels) {
     this.listOfHotels = listOfHotels;
-    this.totalExhibitors = totalExhibitors;
-    this.generateExhibitors(this.totalExhibitors);
+
+    this.generateExhibitors();
   }
 
-  generateExhibitors(_totalExhibitors: number) {
+  generateExhibitors() {
+    const TOTAL_EXHIBITOR = this.listOfHotels.reduce(
+      (acc, hotel) => acc + hotel.table,
+      0
+    );
     let exhibitors: Array<Exhibitor> = [];
     for (
       let idExhibitorPosition = 1;
-      idExhibitorPosition <= this.totalExhibitors;
+      idExhibitorPosition <= TOTAL_EXHIBITOR;
       idExhibitorPosition++
     ) {
       let idHotel = new GetIdHotel(

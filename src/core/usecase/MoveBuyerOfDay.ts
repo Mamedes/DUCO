@@ -1,7 +1,7 @@
 import Buyer from "../entity/Buyer";
 import Hotel from "../entity/Hotel";
 
-export default class LifoBuyerByDay {
+export default class MoveBuyerOfDay {
   private listOfBuyers: Array<Buyer>;
   private listOfHOtels: Array<Hotel>;
 
@@ -10,7 +10,7 @@ export default class LifoBuyerByDay {
     this.listOfHOtels = listOfHOtels;
   }
   execute() {
-    const decimalPlace = Math.min.apply(
+    const MOVE_BUYER_FINAL_DAY_TO_TABLE = Math.min.apply(
       Math,
       this.listOfHOtels.map((hotel) => hotel.table)
     );
@@ -21,7 +21,9 @@ export default class LifoBuyerByDay {
       (acc, hotel) => acc + hotel.table,
       0
     );
-    const listOfBuyersByHotel = this.getListOfBuyersByHotel(decimalPlace);
+    const listOfBuyersByHotel = this.getListOfBuyersByHotel(
+      MOVE_BUYER_FINAL_DAY_TO_TABLE
+    );
 
     for (
       let countBuyer = 0;
@@ -31,15 +33,15 @@ export default class LifoBuyerByDay {
       START_TABLE += this.listOfHOtels[POSITION_INITIAL_CUTE].table;
       if (countBuyer === 0) {
         this.listOfBuyers.splice(
-          START_TABLE - decimalPlace,
-          decimalPlace,
+          START_TABLE - MOVE_BUYER_FINAL_DAY_TO_TABLE,
+          MOVE_BUYER_FINAL_DAY_TO_TABLE,
           ...listOfBuyersByHotel[this.listOfHOtels.length - 1]
         );
       }
       if (countBuyer > 0) {
         this.listOfBuyers.splice(
-          START_TABLE - decimalPlace,
-          decimalPlace,
+          START_TABLE - MOVE_BUYER_FINAL_DAY_TO_TABLE,
+          MOVE_BUYER_FINAL_DAY_TO_TABLE,
           ...listOfBuyersByHotel[countBuyer - 1]
         );
       }
@@ -49,7 +51,7 @@ export default class LifoBuyerByDay {
 
     return this.listOfBuyers;
   }
-  private getListOfBuyersByHotel(decimalPlace: number) {
+  private getListOfBuyersByHotel(tableToMoveBuyerFinalDay: number) {
     let listOfBuyersByHotel = [];
     let SUM_TABLE = 0;
     for (
@@ -60,7 +62,7 @@ export default class LifoBuyerByDay {
       SUM_TABLE += this.listOfHOtels[countHotel].table;
 
       listOfBuyersByHotel.push(
-        this.listOfBuyers.slice(SUM_TABLE - decimalPlace, SUM_TABLE)
+        this.listOfBuyers.slice(SUM_TABLE - tableToMoveBuyerFinalDay, SUM_TABLE)
       );
     }
 

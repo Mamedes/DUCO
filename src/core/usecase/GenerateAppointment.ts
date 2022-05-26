@@ -5,8 +5,8 @@ import Exhibitor from "../entity/Exhibitor";
 import Hotel from "../entity/Hotel";
 import AppointmentExist from "./AppointmentExist";
 import GetTotalDay from "./GetTotalDay";
-import LifoBuyer from "./LifoBuyer";
-import LifoBuyerByDay from "./LifoBuyerByDay";
+import MoveBuyerInHotel from "./MoveBuyerInHotel";
+import MoveBuyerOfDay from "./MoveBuyerOfDay";
 import ListOfEventDataOfDay from "./ListOfEventDataOfDay";
 
 export default class GenerateAppointment {
@@ -51,7 +51,7 @@ export default class GenerateAppointment {
           idAppointment = idAppointment + 1;
 
           if (dayModifier !== day) {
-            listOfBuyers = new LifoBuyerByDay(
+            listOfBuyers = new MoveBuyerOfDay(
               listOfBuyers,
               this.listOfHotels
             ).execute();
@@ -59,7 +59,7 @@ export default class GenerateAppointment {
           }
 
           if (positionModifier !== i) {
-            listOfBuyers = new LifoBuyer(
+            listOfBuyers = new MoveBuyerInHotel(
               listOfBuyers,
               this.listOfHotels
             ).execute();

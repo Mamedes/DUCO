@@ -1,7 +1,7 @@
 import Buyer from "../entity/Buyer";
 import Hotel from "../entity/Hotel";
 
-export default class LifoBuyer {
+export default class MoveBuyerInHotel {
   private listOfBuyers: Array<Buyer>;
   private listOfHOtels: Array<Hotel>;
 

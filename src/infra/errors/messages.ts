@@ -1,0 +1,3 @@
+const errorsMessages = {};
+
+export { errorsMessages };

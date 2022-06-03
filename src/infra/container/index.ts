@@ -1,0 +1,23 @@
+import { container } from 'tsyringe';
+
+import { BuyersRepository } from '@core/buyers/infra/repositories/BuyersRepository';
+import { IBuyersRepository } from '@core/buyers/repositories/IBuyersRepository';
+import { EventDataRepository } from '@core/eventData/infra/repositories';
+import { IEventDataRepository } from '@core/eventData/repositories';
+import { ExhibitorsRepository } from '@core/exhibitors/infra/repositories';
+import { IExhibitorsRepository } from '@core/exhibitors/repositories';
+
+container.registerSingleton<IBuyersRepository>(
+  'BuyersRepository',
+  BuyersRepository
+);
+
+container.registerSingleton<IExhibitorsRepository>(
+  'ExhibitorsRepository',
+  ExhibitorsRepository
+);
+
+container.registerSingleton<IEventDataRepository>(
+  'EventDataRepository',
+  EventDataRepository
+);

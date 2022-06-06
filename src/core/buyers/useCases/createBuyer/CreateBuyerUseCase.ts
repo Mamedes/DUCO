@@ -5,9 +5,9 @@ import { IBuyersRepository } from '@core/buyers/repositories';
 import { AppError } from '@infra/errors/AppError';
 
 @injectable()
-class CreateUserUseCase {
+class CreateBuyerUseCase {
   constructor(
-    @inject('UsersRepository')
+    @inject('BuyersRepository')
     private buyersRepository: IBuyersRepository
   ) {}
 
@@ -22,4 +22,4 @@ class CreateUserUseCase {
   }
 }
 
-export { CreateUserUseCase };
+export { CreateBuyerUseCase };

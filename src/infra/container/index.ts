@@ -6,6 +6,8 @@ import { EventDataRepository } from '@core/eventData/infra/repositories';
 import { IEventDataRepository } from '@core/eventData/repositories';
 import { ExhibitorsRepository } from '@core/exhibitors/infra/repositories';
 import { IExhibitorsRepository } from '@core/exhibitors/repositories';
+import { HotelRepository } from '@core/hotel/infra/repositories';
+import { IHotelRepository } from '@core/hotel/repositories';
 
 container.registerSingleton<IBuyersRepository>(
   'BuyersRepository',
@@ -20,4 +22,9 @@ container.registerSingleton<IExhibitorsRepository>(
 container.registerSingleton<IEventDataRepository>(
   'EventDataRepository',
   EventDataRepository
+);
+
+container.registerSingleton<IHotelRepository>(
+  'HotelRepository',
+  HotelRepository
 );

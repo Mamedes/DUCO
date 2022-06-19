@@ -20,6 +20,17 @@ class BuyersRepository implements IBuyersRepository {
       transaction.save(userRepository);
     });
   }
+
+  async createMany(buyers: ICreateBuyerDTO[]): Promise<void> {
+    await appDataSource.transaction(async (transaction) => {
+      const buyersRepository = this.repository.create(buyers);
+      transaction.save(buyersRepository);
+    });
+  }
+
+  async deleteAll(): Promise<void> {
+    await this.repository.delete({});
+  }
   async listAll(): Promise<Buyer[]> {
     return this.repository.find();
   }

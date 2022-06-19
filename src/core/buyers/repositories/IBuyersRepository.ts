@@ -3,8 +3,10 @@ import { Buyer } from '@entity/Buyer';
 import { ICreateBuyerDTO } from '../dtos';
 
 interface IBuyersRepository {
-  create(user: ICreateBuyerDTO): Promise<void>;
+  create(buyer: ICreateBuyerDTO): Promise<void>;
+  createMany(buyers: ICreateBuyerDTO[]): Promise<void>;
   listAll(): Promise<Buyer[]>;
+  deleteAll(): Promise<void>;
 }
 
 export { IBuyersRepository };

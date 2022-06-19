@@ -11,14 +11,14 @@ class CreateBuyerUseCase {
     private buyersRepository: IBuyersRepository
   ) {}
 
-  async execute(user: ICreateBuyerDTO): Promise<void> {
+  async execute(buyer: ICreateBuyerDTO): Promise<void> {
     const buyersAlreadyExists = await this.buyersRepository.listAll();
 
     if (buyersAlreadyExists) {
       throw new AppError('buyers_already_registered');
     }
 
-    await this.buyersRepository.create(user);
+    await this.buyersRepository.create(buyer);
   }
 }
 

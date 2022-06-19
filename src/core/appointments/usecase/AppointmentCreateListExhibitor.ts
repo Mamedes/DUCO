@@ -18,8 +18,7 @@ export default class AppointmentCreateListExhibitor {
       };
       exhibitors.push(exhibitor);
     }
-    if (exhibitors.length > 0) {
-      await createManyExhibitorUseCase.execute(exhibitors);
-    }
+
+    await createManyExhibitorUseCase.execute(exhibitors);
   }
 }

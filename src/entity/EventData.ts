@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 
 import { HotelToEventData } from './HotelToEventData';
+import { Schedule } from './Schedule';
 
 @Entity('event_datas')
 class EventData {
@@ -16,22 +17,13 @@ class EventData {
   id: number;
 
   @Column()
-  secure_id: string;
-
-  @Column()
   name: string;
 
   @Column()
-  date: Date;
+  days: number;
 
   @Column()
-  time: Date;
-
-  @Column()
-  duration: string;
-
-  @Column()
-  event_day: Date;
+  event_day: number;
 
   @CreateDateColumn()
   created_at: Date;
@@ -45,8 +37,7 @@ class EventData {
   )
   public hotelToEventData!: HotelToEventData[];
 
-  constructor() {
-    this.secure_id = crypto.randomBytes(10).toString('hex');
-  }
+  @OneToMany(() => Schedule, (schedule) => schedule.eventData)
+  public schedule!: Schedule[];
 }
 export { EventData };

@@ -4,12 +4,13 @@ import { container } from 'tsyringe';
 import AppointmentCreateListBuyer from '@core/appointments/usecase/AppointmentCreateListBuyer';
 import AppointmentCreateListExhibitor from '@core/appointments/usecase/AppointmentCreateListExhibitor';
 import { DeleteAllBuyerUseCase } from '@core/buyers/useCases/deleteBuyer/DeleteAllBuyerUseCase';
+import { CreateEventDataUseCase } from '@core/eventData/useCases/createEventData/CreateEventDataUseCase';
 import { DeleteAllExhibitorUseCase } from '@core/exhibitors/useCases/deleteExhibitor/DeleteAllExhibitorUseCase';
 
 class CreateAppointmentController {
   async handle(req: Request, res: Response): Promise<Response> {
     try {
-      const { totalExhibitor, totalBuyer } = req.body;
+      const { totalExhibitor, totalBuyer, eventData } = req.body;
       const deleteAllExhibitorUseCase = container.resolve(
         DeleteAllExhibitorUseCase
       );
@@ -17,15 +18,17 @@ class CreateAppointmentController {
 
       const deleteAllBuyerUseCase = container.resolve(DeleteAllBuyerUseCase);
       await deleteAllBuyerUseCase.execute();
-      const createListBuyer = container.resolve(AppointmentCreateListBuyer);
 
+      const createListBuyer = container.resolve(AppointmentCreateListBuyer);
       await createListBuyer.createBuyer(totalBuyer ?? 0);
 
       const createListExhibitor = container.resolve(
         AppointmentCreateListExhibitor
       );
-
       await createListExhibitor.createExhibitors(totalExhibitor ?? 0);
+
+      const eventDataUseCase = container.resolve(CreateEventDataUseCase);
+      eventDataUseCase.execute(eventData);
 
       return res.status(201).json({ message: 'Appointment created' });
     } catch (err) {

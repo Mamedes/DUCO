@@ -8,13 +8,16 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-import { HotelToEventData } from './HotelToEventData';
+import { Hotel } from './Hotel';
 import { Schedule } from './Schedule';
 
 @Entity('event_datas')
 class EventData {
   @PrimaryColumn({ generated: true })
   id: number;
+
+  @Column()
+  secure_id: string;
 
   @Column()
   name: string;
@@ -31,13 +34,14 @@ class EventData {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @OneToMany(
-    () => HotelToEventData,
-    (hotelToEventData) => hotelToEventData.eventData
-  )
-  public hotelToEventData!: HotelToEventData[];
-
   @OneToMany(() => Schedule, (schedule) => schedule.eventData)
   public schedule!: Schedule[];
+
+  @OneToMany(() => Hotel, (hotel) => hotel.eventData)
+  public hotel!: Hotel[];
+
+  constructor() {
+    this.secure_id = crypto.randomBytes(10).toString('hex');
+  }
 }
 export { EventData };

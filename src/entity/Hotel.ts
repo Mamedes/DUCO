@@ -3,12 +3,12 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  OneToMany,
+  ManyToOne,
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
-import { HotelToEventData } from './HotelToEventData';
+import { EventData } from './EventData';
 
 @Entity('hotels')
 class Hotel {
@@ -24,11 +24,11 @@ class Hotel {
   @Column()
   email: string;
 
-  @Column()
-  phone: string;
+  @Column({ type: 'int' })
+  totalTable: number;
 
-  @Column({ type: 'int', nullable: true })
-  totalTables: number;
+  @Column()
+  eventDataId: number;
 
   @CreateDateColumn()
   created_at: Date;
@@ -36,11 +36,10 @@ class Hotel {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @OneToMany(
-    () => HotelToEventData,
-    (hotelToEventData) => hotelToEventData.hotel
-  )
-  public hotelToEventData!: HotelToEventData[];
+  @ManyToOne(() => EventData, (eventData) => eventData.hotel, {
+    onDelete: 'CASCADE',
+  })
+  public eventData!: EventData;
 
   constructor() {
     this.secure_id = crypto.randomBytes(10).toString('hex');

@@ -5,7 +5,6 @@ import { Buyer } from '@entity/Buyer';
 import { EventData } from '@entity/EventData';
 import { Exhibitor } from '@entity/Exhibitor';
 import { Hotel } from '@entity/Hotel';
-import { HotelToEventData } from '@entity/HotelToEventData';
 import { Schedule } from '@entity/Schedule';
 
 const appDataSource = new DataSource({
@@ -17,15 +16,7 @@ const appDataSource = new DataSource({
   database: 'duco',
   synchronize: true,
   logging: false,
-  entities: [
-    Appointment,
-    Buyer,
-    Exhibitor,
-    Hotel,
-    EventData,
-    HotelToEventData,
-    Schedule,
-  ],
+  entities: [Appointment, Buyer, Exhibitor, Hotel, EventData, Schedule],
   migrations: [],
   subscribers: [],
 });

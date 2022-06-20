@@ -6,6 +6,7 @@ import AppointmentCreateListExhibitor from '@core/appointments/usecase/Appointme
 import { DeleteAllBuyerUseCase } from '@core/buyers/useCases/deleteBuyer/DeleteAllBuyerUseCase';
 import { CreateEventDataUseCase } from '@core/eventData/useCases/createEventData/CreateEventDataUseCase';
 import { DeleteAllExhibitorUseCase } from '@core/exhibitors/useCases/deleteExhibitor/DeleteAllExhibitorUseCase';
+import { CreateHotelExhibitorUseCase } from '@core/hotelExhibitor/useCases/createHotelExhibitor/CreateHotelToExhibitorUseCase';
 
 class CreateAppointmentController {
   async handle(req: Request, res: Response): Promise<Response> {
@@ -25,10 +26,15 @@ class CreateAppointmentController {
       const createListExhibitor = container.resolve(
         AppointmentCreateListExhibitor
       );
-      await createListExhibitor.createExhibitors(totalExhibitor ?? 0);
+      const exhibitors = await createListExhibitor.createExhibitors(
+        totalExhibitor ?? 0
+      );
 
       const eventDataUseCase = container.resolve(CreateEventDataUseCase);
-      eventDataUseCase.execute(eventData);
+      const eventDataDTO = await eventDataUseCase.execute(eventData);
+
+      const hoteToExhibitor = container.resolve(CreateHotelExhibitorUseCase);
+      await hoteToExhibitor.execute(eventDataDTO, exhibitors);
 
       // const createAppointmentUseCase = container.resolve(
       //   CreateAppointmentUseCase

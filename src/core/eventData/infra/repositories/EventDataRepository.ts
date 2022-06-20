@@ -1,6 +1,7 @@
 import { Repository } from 'typeorm';
 
 import { ICreateEventDataDTO } from '@core/eventData/dtos';
+import { IEventDataResponseDTO } from '@core/eventData/dtos/IEventDataResponseDTO';
 import { IEventDataRepository } from '@core/eventData/repositories';
 import { EventData } from '@entity/EventData';
 import { Hotel } from '@entity/Hotel';
@@ -18,12 +19,12 @@ class EventDataRepository implements IEventDataRepository {
     this.repositoryHotel = appDataSource.getRepository(Hotel);
   }
 
-  async create(eventData: ICreateEventDataDTO): Promise<void> {
+  async create(eventData: ICreateEventDataDTO): Promise<EventData> {
     const event_datas = await appDataSource.transaction(async (transaction) => {
       const eventDataRepository = this.repository.create({
         ...eventData,
       });
-      console.log(eventDataRepository);
+
       return transaction.save(eventDataRepository);
     });
     await appDataSource.transaction(async (transaction) => {
@@ -47,16 +48,22 @@ class EventDataRepository implements IEventDataRepository {
               eventDataId: event_datas.id,
               ...hotel,
             });
-            console.log(repositoryHotel);
+
             return transaction.save(repositoryHotel);
           })
         );
       }
     });
+    return event_datas;
   }
   async listAll(): Promise<EventData[]> {
     return this.repository.find();
   }
+  async findById(id: number): Promise<IEventDataResponseDTO | undefined> {
+    return this.repository.findOne({
+      where: { id },
+      relations: ['schedule', 'hotel'],
+    });
+  }
 }
-
 export { EventDataRepository };

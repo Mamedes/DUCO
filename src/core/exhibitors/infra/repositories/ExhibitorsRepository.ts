@@ -20,10 +20,10 @@ class ExhibitorsRepository implements IExhibitorsRepository {
       transaction.save(exhibitorRepository);
     });
   }
-  async createMany(exhibitors: ICreateExhibitorDTO[]): Promise<void> {
-    await appDataSource.transaction(async (transaction) => {
+  async createMany(exhibitors: ICreateExhibitorDTO[]): Promise<Exhibitor[]> {
+    return appDataSource.transaction(async (transaction) => {
       const exhibitorRepository = this.repository.create(exhibitors);
-      transaction.save(exhibitorRepository);
+      return transaction.save(exhibitorRepository);
     });
   }
 

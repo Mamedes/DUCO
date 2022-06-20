@@ -57,7 +57,7 @@ class Appointment {
   @Column()
   hotel_id: number;
 
-  @ManyToOne(() => Hotel)
+  @ManyToOne(() => Hotel, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'hotel_id' })
   hotel: Hotel;
 

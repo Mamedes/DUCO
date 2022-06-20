@@ -2,9 +2,10 @@ import { container } from 'tsyringe';
 
 import { ICreateExhibitorDTO } from '@core/exhibitors/dtos';
 import { CreateManyExhibitorUseCase } from '@core/exhibitors/useCases/createExhibitor/CreateManyExhibitorUseCase';
+import { Exhibitor } from '@entity/Exhibitor';
 
 export default class AppointmentCreateListExhibitor {
-  async createExhibitors(totalExhibitor: number) {
+  async createExhibitors(totalExhibitor: number): Promise<Exhibitor[]> {
     const createManyExhibitorUseCase = container.resolve(
       CreateManyExhibitorUseCase
     );
@@ -19,6 +20,6 @@ export default class AppointmentCreateListExhibitor {
       exhibitors.push(exhibitor);
     }
 
-    await createManyExhibitorUseCase.execute(exhibitors);
+    return createManyExhibitorUseCase.execute(exhibitors);
   }
 }

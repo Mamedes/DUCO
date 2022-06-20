@@ -2,6 +2,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { ICreateEventDataDTO } from '@core/eventData/dtos';
 import { IEventDataRepository } from '@core/eventData/repositories';
+import { EventData } from '@entity/EventData';
 
 @injectable()
 class CreateEventDataUseCase {
@@ -10,8 +11,8 @@ class CreateEventDataUseCase {
     private eventDataRepository: IEventDataRepository
   ) {}
 
-  async execute(eventData: ICreateEventDataDTO): Promise<void> {
-    await this.eventDataRepository.create(eventData);
+  async execute(eventData: ICreateEventDataDTO): Promise<EventData> {
+    return this.eventDataRepository.create(eventData);
   }
 }
 

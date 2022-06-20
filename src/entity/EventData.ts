@@ -8,6 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
+import { Appointment } from './Appointment';
 import { Hotel } from './Hotel';
 import { Schedule } from './Schedule';
 
@@ -25,9 +26,6 @@ class EventData {
   @Column()
   days: number;
 
-  @Column()
-  event_day: number;
-
   @CreateDateColumn()
   created_at: Date;
 
@@ -39,6 +37,9 @@ class EventData {
 
   @OneToMany(() => Hotel, (hotel) => hotel.eventData)
   public hotel!: Hotel[];
+
+  @OneToMany(() => Hotel, (appointment) => appointment.eventData)
+  public appointment!: Appointment[];
 
   constructor() {
     this.secure_id = crypto.randomBytes(10).toString('hex');

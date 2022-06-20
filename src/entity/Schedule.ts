@@ -21,6 +21,9 @@ class Schedule {
   @Column()
   date: Date;
 
+  @Column()
+  event_day: number;
+
   @Column({ type: 'time' })
   time_start: string;
 

@@ -1,5 +1,7 @@
 import { container } from 'tsyringe';
 
+import { AppointmentsRepository } from '@core/appointments/infra/repositories/AppointmentsRepository';
+import { IAppointmentsRepository } from '@core/appointments/repositories';
 import { BuyersRepository } from '@core/buyers/infra/repositories/BuyersRepository';
 import { IBuyersRepository } from '@core/buyers/repositories/IBuyersRepository';
 import { EventDataRepository } from '@core/eventData/infra/repositories';
@@ -27,4 +29,9 @@ container.registerSingleton<IEventDataRepository>(
 container.registerSingleton<IHotelRepository>(
   'HotelRepository',
   HotelRepository
+);
+
+container.registerSingleton<IAppointmentsRepository>(
+  'AppointmentsRepository',
+  AppointmentsRepository
 );

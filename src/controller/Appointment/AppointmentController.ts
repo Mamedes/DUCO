@@ -30,6 +30,11 @@ class CreateAppointmentController {
       const eventDataUseCase = container.resolve(CreateEventDataUseCase);
       eventDataUseCase.execute(eventData);
 
+      // const createAppointmentUseCase = container.resolve(
+      //   CreateAppointmentUseCase
+      // );
+      // await createAppointmentUseCase.execute();
+
       return res.status(201).json({ message: 'Appointment created' });
     } catch (err) {
       return res.status(400).json({ error: err.message });

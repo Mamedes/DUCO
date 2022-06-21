@@ -2,6 +2,7 @@ import { DataSource } from 'typeorm';
 
 import { Appointment } from '@entity/Appointment';
 import { Buyer } from '@entity/Buyer';
+import { BuyerHotelExhibitor } from '@entity/BuyerHotelExhibitor';
 import { EventData } from '@entity/EventData';
 import { Exhibitor } from '@entity/Exhibitor';
 import { Hotel } from '@entity/Hotel';
@@ -25,6 +26,7 @@ const appDataSource = new DataSource({
     EventData,
     Schedule,
     HotelExhibitors,
+    BuyerHotelExhibitor,
   ],
   migrations: [],
   subscribers: [],

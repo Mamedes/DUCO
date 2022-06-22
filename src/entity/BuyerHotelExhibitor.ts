@@ -26,7 +26,7 @@ class BuyerHotelExhibitor {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @Column({})
+  @Column({ nullable: true })
   date: Date;
 
   @Column()

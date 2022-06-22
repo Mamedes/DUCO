@@ -1,12 +1,13 @@
+import { IEventDataResponseDTO } from '@core/eventData/dtos/IEventDataResponseDTO';
 import { Buyer } from '@entity/Buyer';
 import { BuyerHotelExhibitor } from '@entity/BuyerHotelExhibitor';
-
-import { IBuyerHotelExhibitorResponseDTO } from '../dtos/IBuyerHotelExhibitorResponseDTO';
+import { HotelExhibitors } from '@entity/HotelExhibitor';
 
 interface IBuyerHotelExhibitorRepository {
   create(
-    hotelExhibitor: IBuyerHotelExhibitorResponseDTO[],
-    buyers: Buyer[]
+    hotelExhibitor: HotelExhibitors[],
+    buyers: Buyer[],
+    eventData: IEventDataResponseDTO
   ): Promise<void>;
   listAll(): Promise<BuyerHotelExhibitor[]>;
 }

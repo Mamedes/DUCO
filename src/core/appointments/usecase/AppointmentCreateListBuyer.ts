@@ -17,6 +17,6 @@ export default class AppointmentCreateListBuyer {
       Buyers.push(Buyer);
     }
 
-    await createManyBuyerUseCase.execute(Buyers);
+    return createManyBuyerUseCase.execute(Buyers);
   }
 }

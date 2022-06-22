@@ -1,8 +1,10 @@
-import { inject, injectable } from 'tsyringe';
+import { container, inject, injectable } from 'tsyringe';
 
-import { IBuyerHotelExhibitorResponseDTO } from '@core/buyerHotelExhibitor/dtos/IBuyerHotelExhibitorResponseDTO';
 import { IBuyerHotelExhibitorRepository } from '@core/buyerHotelExhibitor/repositories';
+import { FindByIdEventDataUseCase } from '@core/eventData/useCases/findByIdEventData/FindByIdEventDataUseCase';
 import { Buyer } from '@entity/Buyer';
+import { EventData } from '@entity/EventData';
+import { HotelExhibitors } from '@entity/HotelExhibitor';
 
 @injectable()
 class CreateBuyerHotelExhibitorUseCase {
@@ -12,10 +14,21 @@ class CreateBuyerHotelExhibitorUseCase {
   ) {}
 
   async execute(
-    hotelExhibitor: IBuyerHotelExhibitorResponseDTO[],
-    buyers: Buyer[]
+    hotelExhibitor: HotelExhibitors[],
+    buyers: Buyer[],
+    eventData: EventData
   ): Promise<void> {
-    this.buyerHotelExhibitorRepository.create(hotelExhibitor, buyers);
+    const findByIdEventDataUseCase = container.resolve(
+      FindByIdEventDataUseCase
+    );
+    const eventDataResponse = await findByIdEventDataUseCase.execute(
+      eventData.id
+    );
+    this.buyerHotelExhibitorRepository.create(
+      hotelExhibitor,
+      buyers,
+      eventDataResponse
+    );
   }
 }
 

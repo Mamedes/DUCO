@@ -4,6 +4,7 @@ import { FindByIdEventDataUseCase } from '@core/eventData/useCases/findByIdEvent
 import { IHotelExhibitorRepository } from '@core/hotelExhibitor/repositories';
 import { EventData } from '@entity/EventData';
 import { Exhibitor } from '@entity/Exhibitor';
+import { HotelExhibitors } from '@entity/HotelExhibitor';
 
 @injectable()
 class CreateHotelExhibitorUseCase {
@@ -12,7 +13,10 @@ class CreateHotelExhibitorUseCase {
     private hotelExhibitorRepository: IHotelExhibitorRepository
   ) {}
 
-  async execute(eventData: EventData, exhibitors: Exhibitor[]): Promise<void> {
+  async execute(
+    eventData: EventData,
+    exhibitors: Exhibitor[]
+  ): Promise<HotelExhibitors[]> {
     const findByIdEventDataUseCase = container.resolve(
       FindByIdEventDataUseCase
     );
@@ -20,7 +24,7 @@ class CreateHotelExhibitorUseCase {
       eventData.id
     );
 
-    this.hotelExhibitorRepository.create(eventDataResponse, exhibitors);
+    return this.hotelExhibitorRepository.create(eventDataResponse, exhibitors);
   }
 }
 

@@ -6,7 +6,7 @@ interface IHotelExhibitorRepository {
   create(
     eventData: IEventDataResponseDTO,
     exhibitors: Exhibitor[]
-  ): Promise<void>;
+  ): Promise<HotelExhibitors[]>;
   listAll(): Promise<HotelExhibitors[]>;
 }
 

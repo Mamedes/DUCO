@@ -3,6 +3,7 @@ import { container } from 'tsyringe';
 
 import AppointmentCreateListBuyer from '@core/appointments/usecase/AppointmentCreateListBuyer';
 import AppointmentCreateListExhibitor from '@core/appointments/usecase/AppointmentCreateListExhibitor';
+import { CreateBuyerHotelExhibitorUseCase } from '@core/buyerHotelExhibitor/useCases/createHotelExhibitor/CreateBuyerHotelToExhibitorUseCase';
 import { DeleteAllBuyerUseCase } from '@core/buyers/useCases/deleteBuyer/DeleteAllBuyerUseCase';
 import { CreateEventDataUseCase } from '@core/eventData/useCases/createEventData/CreateEventDataUseCase';
 import { DeleteAllExhibitorUseCase } from '@core/exhibitors/useCases/deleteExhibitor/DeleteAllExhibitorUseCase';
@@ -21,7 +22,7 @@ class CreateAppointmentController {
       await deleteAllBuyerUseCase.execute();
 
       const createListBuyer = container.resolve(AppointmentCreateListBuyer);
-      await createListBuyer.createBuyer(totalBuyer ?? 0);
+      const buyers = await createListBuyer.createBuyer(totalBuyer ?? 0);
 
       const createListExhibitor = container.resolve(
         AppointmentCreateListExhibitor
@@ -33,8 +34,22 @@ class CreateAppointmentController {
       const eventDataUseCase = container.resolve(CreateEventDataUseCase);
       const eventDataDTO = await eventDataUseCase.execute(eventData);
 
-      const hoteToExhibitor = container.resolve(CreateHotelExhibitorUseCase);
-      await hoteToExhibitor.execute(eventDataDTO, exhibitors);
+      const hoteExhibitorUseCase = container.resolve(
+        CreateHotelExhibitorUseCase
+      );
+      const hotelExhibitor = await hoteExhibitorUseCase.execute(
+        eventDataDTO,
+        exhibitors
+      );
+
+      const buyerHotelExhibitorUseCase = container.resolve(
+        CreateBuyerHotelExhibitorUseCase
+      );
+      await buyerHotelExhibitorUseCase.execute(
+        hotelExhibitor,
+        buyers,
+        eventDataDTO
+      );
 
       // const createAppointmentUseCase = container.resolve(
       //   CreateAppointmentUseCase

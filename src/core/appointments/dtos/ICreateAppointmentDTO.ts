@@ -1,6 +1,6 @@
 interface ICreateAppointmentDTO {
   buyer_id: number;
-  date: Date;
+  date?: Date;
   exhibitor_id: number;
 }
 

@@ -3,6 +3,7 @@ import { container, inject, injectable } from 'tsyringe';
 import { IBuyerHotelExhibitorRepository } from '@core/buyerHotelExhibitor/repositories';
 import { FindByIdEventDataUseCase } from '@core/eventData/useCases/findByIdEventData/FindByIdEventDataUseCase';
 import { Buyer } from '@entity/Buyer';
+import { BuyerHotelExhibitor } from '@entity/BuyerHotelExhibitor';
 import { EventData } from '@entity/EventData';
 import { HotelExhibitors } from '@entity/HotelExhibitor';
 
@@ -17,14 +18,14 @@ class CreateBuyerHotelExhibitorUseCase {
     hotelExhibitor: HotelExhibitors[],
     buyers: Buyer[],
     eventData: EventData
-  ): Promise<void> {
+  ): Promise<BuyerHotelExhibitor[]> {
     const findByIdEventDataUseCase = container.resolve(
       FindByIdEventDataUseCase
     );
     const eventDataResponse = await findByIdEventDataUseCase.execute(
       eventData.id
     );
-    this.buyerHotelExhibitorRepository.create(
+    return this.buyerHotelExhibitorRepository.create(
       hotelExhibitor,
       buyers,
       eventDataResponse

@@ -5,9 +5,7 @@ import { IBuyerHotelExhibitorRepository } from '@core/buyerHotelExhibitor/reposi
 import { IEventDataResponseDTO } from '@core/eventData/dtos/IEventDataResponseDTO';
 import { Buyer } from '@entity/Buyer';
 import { BuyerHotelExhibitor } from '@entity/BuyerHotelExhibitor';
-import { EventData } from '@entity/EventData';
 import { HotelExhibitors } from '@entity/HotelExhibitor';
-import { Schedule } from '@entity/Schedule';
 import appDataSource from '@infra/database/AppDataSource';
 
 class BuyerHotelExhibitorRepository implements IBuyerHotelExhibitorRepository {
@@ -21,21 +19,71 @@ class BuyerHotelExhibitorRepository implements IBuyerHotelExhibitorRepository {
     hotelExhibitor: HotelExhibitors[],
     buyers: Buyer[],
     eventData: IEventDataResponseDTO
-  ): Promise<void> {
-    const moveHotelDay = this.generateNumberMovement(eventData);
+  ): Promise<BuyerHotelExhibitor[]> {
+    const moveHotelDay = 26;
+    const moveHotelDay2 = 26 * 2;
+    const tableValue = eventData.hotels.map((hotel) => hotel.totalTable);
+    let somaTable = 0;
+    for (
+      let countTableHotel = 0;
+      countTableHotel < tableValue.length;
+      countTableHotel += 1
+    ) {
+      somaTable += tableValue[countTableHotel];
+    }
+
+    const totalDay = eventData.schedules.length;
 
     const buyerHotelExhibitor: ICreateBuyerHotelExhibitorDTO[] = [];
-    for (
-      let countHotelExhibitor = 0;
-      countHotelExhibitor < hotelExhibitor.length;
-      countHotelExhibitor += 1
-    ) {
-      buyerHotelExhibitor.push({
-        hotel_exhibitor_id: hotelExhibitor[countHotelExhibitor].id,
-        buyer_id: buyers[countHotelExhibitor].id,
-      });
+    for (let countDay = 0; countDay < totalDay; countDay += 1) {
+      for (
+        let countHotelExhibitor = 0;
+        countHotelExhibitor < hotelExhibitor.length;
+        countHotelExhibitor += 1
+      ) {
+        if (countDay === 1) {
+          if (countHotelExhibitor + moveHotelDay >= 116) {
+            const position = somaTable - countHotelExhibitor;
+            buyerHotelExhibitor.push({
+              day: countDay,
+              hotel_exhibitor_id: position === 0 ? 1 : position,
+              buyer_id: countHotelExhibitor + 1,
+            });
+          } else {
+            buyerHotelExhibitor.push({
+              day: countDay,
+              hotel_exhibitor_id: countHotelExhibitor + moveHotelDay + 1,
+              buyer_id: countHotelExhibitor + 1,
+            });
+          }
+        }
+        if (countDay === 2) {
+          if (countHotelExhibitor + moveHotelDay2 >= 116) {
+            const position = somaTable - countHotelExhibitor;
+
+            buyerHotelExhibitor.push({
+              day: countDay,
+              hotel_exhibitor_id: position === 0 ? 1 : position,
+              buyer_id: countHotelExhibitor + 1,
+            });
+          } else {
+            buyerHotelExhibitor.push({
+              day: countDay,
+              hotel_exhibitor_id: countHotelExhibitor + 1,
+              buyer_id: countHotelExhibitor + 1,
+            });
+          }
+        }
+        if (countDay <= 0) {
+          buyerHotelExhibitor.push({
+            day: countDay,
+            hotel_exhibitor_id: hotelExhibitor[countHotelExhibitor].id,
+            buyer_id: buyers[countHotelExhibitor].id,
+          });
+        }
+      }
     }
-    appDataSource.transaction(async (transaction) => {
+    return appDataSource.transaction(async (transaction) => {
       const buyerHotelExhibitorRepository =
         this.repository.create(buyerHotelExhibitor);
 

@@ -8,7 +8,7 @@ interface IBuyerHotelExhibitorRepository {
     hotelExhibitor: HotelExhibitors[],
     buyers: Buyer[],
     eventData: IEventDataResponseDTO
-  ): Promise<void>;
+  ): Promise<BuyerHotelExhibitor[]>;
   listAll(): Promise<BuyerHotelExhibitor[]>;
 }
 

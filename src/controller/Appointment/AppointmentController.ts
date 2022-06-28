@@ -3,6 +3,7 @@ import { container } from 'tsyringe';
 
 import AppointmentCreateListBuyer from '@core/appointments/usecase/AppointmentCreateListBuyer';
 import AppointmentCreateListExhibitor from '@core/appointments/usecase/AppointmentCreateListExhibitor';
+import { CreateAppointmentUseCase } from '@core/appointments/usecase/createAppointment/CreateAppointmentUseCase';
 import { CreateBuyerHotelExhibitorUseCase } from '@core/buyerHotelExhibitor/useCases/createHotelExhibitor/CreateBuyerHotelToExhibitorUseCase';
 import { DeleteAllBuyerUseCase } from '@core/buyers/useCases/deleteBuyer/DeleteAllBuyerUseCase';
 import { CreateEventDataUseCase } from '@core/eventData/useCases/createEventData/CreateEventDataUseCase';
@@ -34,27 +35,27 @@ class CreateAppointmentController {
       const eventDataUseCase = container.resolve(CreateEventDataUseCase);
       const eventDataDTO = await eventDataUseCase.execute(eventData);
 
-      const hoteExhibitorUseCase = container.resolve(
-        CreateHotelExhibitorUseCase
-      );
-      const hotelExhibitor = await hoteExhibitorUseCase.execute(
-        eventDataDTO,
-        exhibitors
-      );
-
-      const buyerHotelExhibitorUseCase = container.resolve(
-        CreateBuyerHotelExhibitorUseCase
-      );
-      await buyerHotelExhibitorUseCase.execute(
-        hotelExhibitor,
-        buyers,
-        eventDataDTO
-      );
-
-      // const createAppointmentUseCase = container.resolve(
-      //   CreateAppointmentUseCase
+      // const hoteExhibitorUseCase = container.resolve(
+      //   CreateHotelExhibitorUseCase
       // );
-      // await createAppointmentUseCase.execute();
+      // const hotelExhibitor = await hoteExhibitorUseCase.execute(
+      //   eventDataDTO,
+      //   exhibitors
+      // );
+
+      // const buyerHotelExhibitorUseCase = container.resolve(
+      //   CreateBuyerHotelExhibitorUseCase
+      // );
+      // const buyerHotelExhibitorDTO = await buyerHotelExhibitorUseCase.execute(
+      //   hotelExhibitor,
+      //   buyers,
+      //   eventDataDTO
+      // );
+
+      const createAppointmentUseCase = container.resolve(
+        CreateAppointmentUseCase
+      );
+      await createAppointmentUseCase.execute(buyers, exhibitors, eventDataDTO);
 
       return res.status(201).json({ message: 'Appointment created' });
     } catch (err) {

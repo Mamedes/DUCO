@@ -1,7 +1,10 @@
 import { inject, injectable } from 'tsyringe';
 
-import { ICreateAppointmentDTO } from '@core/appointments/dtos';
 import { IAppointmentsRepository } from '@core/appointments/repositories';
+import { IBuyerHotelExhibitorResponseDTO } from '@core/buyerHotelExhibitor/dtos/IBuyerHotelExhibitorResponseDTO';
+import { IEventDataResponseDTO } from '@core/eventData/dtos/IEventDataResponseDTO';
+import { Buyer } from '@entity/Buyer';
+import { Exhibitor } from '@entity/Exhibitor';
 
 @injectable()
 class CreateAppointmentUseCase {
@@ -10,8 +13,12 @@ class CreateAppointmentUseCase {
     private appointmentsRepository: IAppointmentsRepository
   ) {}
 
-  async execute(appointments: ICreateAppointmentDTO): Promise<void> {
-    await this.appointmentsRepository.create(appointments);
+  async execute(
+    buyer: Buyer[],
+    exhibitor: Exhibitor[],
+    eventData: IEventDataResponseDTO
+  ): Promise<void> {
+    await this.appointmentsRepository.create(buyer, exhibitor, eventData);
   }
 }
 

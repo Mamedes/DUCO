@@ -23,7 +23,7 @@ class Appointment {
   @Column()
   secure_id: string;
 
-  @Column()
+  @Column({ nullable: true })
   date: Date;
 
   @CreateDateColumn()
@@ -46,7 +46,7 @@ class Appointment {
   @JoinColumn({ name: 'exhibitor_id' })
   exhibitor: Exhibitor;
 
-  @Column()
+  @Column({ nullable: true })
   eventDataId: number;
 
   @ManyToOne(() => EventData, (eventData) => eventData.appointment, {
@@ -54,14 +54,14 @@ class Appointment {
   })
   public eventData!: EventData;
 
-  @Column()
+  @Column({ nullable: true })
   hotel_id: number;
 
   @ManyToOne(() => Hotel, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'hotel_id' })
   hotel: Hotel;
 
-  @Column()
+  @Column({ nullable: true })
   schedule_id: number;
 
   @ManyToOne(() => Schedule)

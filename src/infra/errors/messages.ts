@@ -4,6 +4,7 @@ const errorsMessages = {
   not_possible_create_buyers: 'Not possible create buyers',
   not_possible_create_exhibitors: 'Not possible create exhibitors',
   event_data_not_found: 'Event data not found',
+  appointments_duplicated: 'Not possible Appointments generated',
 };
 
 export { errorsMessages };

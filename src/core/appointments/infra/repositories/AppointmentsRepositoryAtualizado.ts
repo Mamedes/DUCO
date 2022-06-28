@@ -49,12 +49,12 @@ class AppointmentsRepository implements IAppointmentsRepository {
     const positionModifier = 1;
     for (let countDay = 0; countDay < 3; countDay += 1) {
       if (countDay === 1) {
-        listOfBuyers = this.day1(listOfBuyers);
+        listOfBuyers = this.day1(buyers);
         listOfBuyers2 = listOfBuyers;
       }
 
       if (countDay === 2) {
-        listOfBuyers = this.day2(listOfBuyers);
+        listOfBuyers = this.day2(buyers);
       }
 
       for (
@@ -71,19 +71,17 @@ class AppointmentsRepository implements IAppointmentsRepository {
             exhibitor_id: exhibitors[countExhibitor].id,
             buyer_id: listOfBuyers[countExhibitor].id,
           };
-
-          // const appointmentExist = this.appointmentExist(
-          //   appointments,
-          //   exhibitors[countExhibitor].id,
-          //   listOfBuyers[countExhibitor].id
-          // );
-
-          // if (appointmentExist) {
-          //   console.log('Error', appointment);
-          //   throw new AppError('appointments_duplicated');
-          // }
-
           appointments.push(appointment);
+          const appointmentExist = this.appointmentExist(
+            appointments,
+            countExhibitor,
+            listOfBuyers[countExhibitor].id
+          );
+
+          if (appointmentExist) {
+            console.log('error');
+            throw new AppError('appointments_duplicated');
+          }
         }
         listOfBuyers = this.moveBuyerInHotel(listOfBuyers, hotels);
       }
